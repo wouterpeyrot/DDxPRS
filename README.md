@@ -19,8 +19,25 @@ If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can i
 ## Running `DDx-PRS`
 
 The input arguments of `DDxPRS()` are:
+prs_liab , prs_r2l , snp_h2l , K  , crosstrait_cor.prs , crosstrait_rg, clinical.prior , liab.configuration
 
-* **outcome_file:** the name of the file where the outcome should be saved
+* **prs_liab:** xxx
+
+* **prs_r2l:** xxx
+
+* **snp_h2l:** xxx
+
+* **K:** xxx
+
+* **crosstrait_cor.prs:** xxx
+
+* **crosstrait_rg:** xxx
+
+* **clinical.prior:** xxx
+
+* **liab.configuration:** xxx
+
+
 
 * **A_name/B_name:** 2 or 3 letter disorder codes that will be used to plot the genetic distance between cases and controls in terms of F<sub>ST,causal</sub>.
 
