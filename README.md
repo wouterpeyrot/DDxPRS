@@ -17,9 +17,10 @@ library(mvnfast)
 If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
 
 ## Computing case-control polygenic risk scores (PRS) before applying `DDx-PRS`
-The case-control PRS need to be computed before applying DDx-PRS. This should be done with a Baysian method to achieve proper callibration of the PRS. We used PRS-CS for this purpose, but this can also be done with e.g. SBayesR. See https://github.com/euffelmann/bpc for more details. We explicitely describe the running PRS-CS (available here: https://github.com/getian107/PRScs).
+The case-control PRS need to be computed before applying DDx-PRS. This should be done with a Baysian method to achieve proper callibration of the PRS. We used PRS-CS for this purpose, but this can also be done with e.g. SBayesR. For more details, see https://github.com/euffelmann/bpc. 
 
 **Applying PRS-CS**
+* PRS-CS can be downloaded here: https://github.com/getian107/PRScs
 * Run PRS-CS-auto, i.e. “--a=1 --b=0.5 --phi=None --beta_std=False --n_iter=1000 --thin=5 --n_burnin=500 ---seed=None”.
 * In the input for PRS-CS, it is crucial to specify as sample-size the effective N (Neff) of the training GWAS results (i.e. the sum of Neff of the cohorts included in the meta-analyses in the training GWAS; see Grotzinger at al. 2023 Biol Psychiatry (PMID: 35973856) for details). 
 
