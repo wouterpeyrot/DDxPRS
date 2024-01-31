@@ -17,13 +17,13 @@ library(mvnfast)
 If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
 
 ## Running `DDx-PRS`
+Before applying DDxPRS, we recommend to study and run the example below. The disorder names should be provided in every input argument listed below. Disorders should be identically ordered for all input arguments.
 
 The input arguments of `DDxPRS()` are:
-prs_liab , prs_r2l , snp_h2l , K  , crosstrait_cor.prs , crosstrait_rg, clinical.prior , liab.configuration
 
-* **prs_liab:** xxx
+* **prs_liab:** a dataframe with the liability-scale prs for every disorder (individuals in rows, prs in columns)
 
-* **prs_r2l:** xxx
+* **prs_r2l:** a vector with liability-scale variance explained in every disorder by its case-control prs, e.g. c(dis1=0.10,dis2=0.08,dis3=0.04). 
 
 * **snp_h2l:** xxx
 
