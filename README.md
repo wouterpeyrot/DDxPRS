@@ -26,7 +26,7 @@ The case-control PRS need to be computed before applying DDx-PRS. This should be
 
 **Compute case-control PRS using Plink**
 
-Using the SNP-effects obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs, and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should be from the same ancestry.
+Using the SNP-effects obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs, and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
 * Compute the PRS with the Plink command “--score header sum center”
 * When your test sample is very small, the allele frequencies used to scale the PRS could be computed in the reference sample and read with the Plink command “--read-freq” (see for details: https://www.cog-genomics.org/plink/1.9/score)
 * The results case-control PRS are on the standardized observed scale with 50/50 case/control ascertainment, and need to be transformed to the liability-scale (see below)
