@@ -6,21 +6,19 @@ The `DDxPRS` R function provides a tool for distuingishing different disorders b
 
 ## Getting Started
 
-Copy the `DDxPRS.R` file to your computer:
+Copy the `DDxPRS.R` file to your computer, and load the following libraries.
 
 ```[r]
-library(data.table)
-library(R.utils)
-library(devtools)
-install_github("wouterpeyrot/CCGWAS")
-library(CCGWAS)
+library(mvtnorm)
+library(mvnfast)
+source(DDxPRS.R)
 ``` 
 
-If the R packages *data.table*, *R.utils* or *devtools* have not been installed in R, you can install them with the R command: `install.packages("...")`.
+If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
 
-## Running `CC-GWAS`
+## Running `DDx-PRS`
 
-The `CCGWAS` R package contains one function `CCGWAS()`. The input arguments of `CCGWAS()` are:
+The input arguments of `DDxPRS()` are:
 
 * **outcome_file:** the name of the file where the outcome should be saved
 
