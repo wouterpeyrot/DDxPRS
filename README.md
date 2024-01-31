@@ -27,7 +27,8 @@ The case-control PRS need to be computed before applying DDx-PRS. This should be
 **Compute case-control PRS using Plink**
 
 Using the SNP-effects obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs, and (2) in the test sample in which you aim to apply `DDx-PRS`.
-* 
+* In Plink, compute the PRS with the command “--score header sum center”
+
 
 
 ## Running `DDx-PRS`
