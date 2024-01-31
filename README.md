@@ -6,12 +6,12 @@ The `DDxPRS` R function provides a tool for distuingishing different disorders b
 
 ## Getting Started
 
-Copy the `DDxPRS.R` file to your computer, and load the following libraries.
+Copy the `DDxPRS.R` file to your computer. Load DDxPRS and the following libraries.
 
 ```[r]
+source(DDxPRS.R)
 library(mvtnorm)
 library(mvnfast)
-source(DDxPRS.R)
 ``` 
 
 If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
