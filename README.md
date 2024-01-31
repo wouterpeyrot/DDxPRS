@@ -62,6 +62,29 @@ The input arguments of `DDxPRS()` are:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 * **A_name/B_name:** 2 or 3 letter disorder codes that will be used to plot the genetic distance between cases and controls in terms of F<sub>ST,causal</sub>.
 
 * **sumstats_fileA1A0/sumstats_fileB1B0:** names of the gzip-files with case-control GWAS results. Column names should be: SNP, CHR, BP, EA, NEA, FRQ, OR, SE, P, Neff. EA denotes the effective allele, NEA denotes the non effective allele, FRQ denotes the frequency of the EA in controls, OR denotes the OR per EA, SE denotes the standard error of log(OR), Neff labels the effective sample size. When Neff is not known on a SNP-by-SNP basis, this column can be computed by 4/{(1/N_case)+(1/N_control)} estimated per cohort contributing to the meta-analyses and then added together across contributing cohorts. Note that the SE column is optional, although without SE some SNPs with very small p-values < 1e-310 may be discarded (as no z-scores can be estimated for them). Note that the case-control GWAS results of A1A0 and B1B0 will be merged based on SNP names, so make sure to align these adequately (by i.e. naming them as CHR-BP).
