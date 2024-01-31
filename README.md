@@ -1,8 +1,8 @@
-# DDxPRS
+# DDx-PRS
 
 !!! WORK in PROGRESS !!!
 
-The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS method is described in detail in Peyrot et al. 2024 medRxiv. 
+The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS (Differential Diagnosis-Polygenic Risk Score) method is described in detail in Peyrot et al. 2024 medRxiv. 
 
 ## Getting Started
 
