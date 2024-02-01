@@ -15,16 +15,16 @@ library(mvnfast)
 If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
 
 ## Computing case-control polygenic risk scores (PRS) before applying `DDx-PRS`
-The case-control PRS need to be computed before applying DDx-PRS. This should be done with a Baysian method to achieve proper callibration of the PRS. We used PRS-CS for this purpose, but this can also be done with e.g. SBayesR. For more details, see https://github.com/euffelmann/bpc. Before applying DDx-PRS, we recommend to study and run the example below. 
+The case-control PRS need to be computed before applying DDx-PRS. This should be done with a Baysian method to achieve proper callibration of the PRS. We used PRS-CS for this purpose, but this can also be done with e.g. SBayesR. For more details, see https://github.com/euffelmann/bpc. 
 
 **Applying PRS-CS**
 * PRS-CS can be downloaded here: https://github.com/getian107/PRScs
 * Run PRS-CS-auto with default arguments, i.e. “--a=1 --b=0.5 --phi=None --beta_std=False --n_iter=1000 --thin=5 --n_burnin=500 ---seed=None”.
-* In the input for PRS-CS, it is crucial to specify as sample-size the effective N (Neff) of the training GWAS results (i.e. the sum of Neff of the cohorts included in the meta-analyses in the training GWAS; see Grotzinger at al. 2023 Biol Psychiatry (PMID: 35973856) for details). 
+* In the input for PRS-CS, it is crucial to specify as sample-size the effective N (Neff) of the training GWAS results (i.e. the sum of Neff of the cohorts included in the meta-analyses of the training data; see Grotzinger at al. 2023 Biol Psychiatry (PMID: 35973856) for details). 
 
 **Compute case-control PRS using Plink**
 
-Using the SNP-effects obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs, and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
+Using the SNP-effects obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs; and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
 * Compute the PRS with the Plink command “--score header sum center”
 * When your test sample is very small, the allele frequencies used to scale the PRS could be computed in the reference sample and read with the Plink command “--read-freq” (see for details: https://www.cog-genomics.org/plink/1.9/score)
 * The case-control PRS thus obtained are on the standardized observed scale with 50/50 case/control ascertainment, and need to be transformed to the liability-scale (see below).
