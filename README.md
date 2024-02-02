@@ -166,4 +166,4 @@ roc(response=Y,predictor=P,quiet=TRUE)$auc
         
 ``` 
 
-Note that the example data consists of simulated data for the prediction of schizophrenia (dis1), bipolar disorder (dis2) and major depressive disorders (dis3) with diagnostic categories schziophrenia (cat1), bipolar disorders (cat2), major depressive disorder (cat3) and controls (cat4) described in Peyrot et al 2024 medRxiv.
+Note that this example consists of simulated data for the analyses described in Peyrot et al 2024 medRxiv, i.e. predicting the diagnostic categories schziophrenia (cat1), bipolar disorders (cat2), major depressive disorder (cat3) and controls (cat4) based on the case-control PRS of schizophrenia (dis1), bipolar disorder (dis2) and major depressive disorders (dis3).
