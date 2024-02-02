@@ -16,7 +16,7 @@ Before applying DDx-PRS, liability-scale case-control PRS need to be computed fo
 
 Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs; and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
 * Compute the PRS with the Plink command “--score header sum center” (it is important to use this exact command to attain proper callibration)
-* When your test sample is very small, the allele frequencies used in"--score" can be computed in the reference sample and read with the Plink command “--read-freq” (see for details: https://www.cog-genomics.org/plink/1.9/score)
+* When your test sample is very small, the allele frequencies used in "--score" can be computed in the reference sample and read with the Plink command “--read-freq” (see for details: https://www.cog-genomics.org/plink/1.9/score)
 * The case-control PRS thus obtained are on the standardized observed scale with 50/50 case/control ascertainment, and need to be transformed to the liability-scale (see below).
 
 **Transform observed-scale case-control PRS to the liability-scale**
@@ -150,7 +150,7 @@ output <- DDxPRS( prs_liab=prs_liab
 ## Examples to assess performance of output
 ##############
 
-library(locfit) ## for smoothing in ICI
+library(locfit) 
 library(pROC)
 ICI <- function(Y,P){
   ## Austin PC. The Integrated Calibration Index (ICI) and related metrics for quantifying the calibration of logistic regression models. Statistics in Medicine 2019
