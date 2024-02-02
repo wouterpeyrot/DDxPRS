@@ -1,6 +1,6 @@
 # DDx-PRS
 
-The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS (Differential Diagnosis-Polygenic Risk Score) method is described in detail in Peyrot et al. 2024 medRxiv. 
+The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS (Differential Diagnosis-Polygenic Risk Score) method is described in detail in Peyrot et al. 2024 medRxiv. Before applying `DDx-PRS`, the liability-scale case-control PRS need to be computed for each disorder in a population references sample (e.g. 1000G) and in your test sample.
 
 
 ## Compute liability-scale case-control polygenic risk scores (PRS) 
@@ -32,7 +32,7 @@ prs_liab <- prs_obs5050*sqrt(h2o_to_h2l(K=K,P=0.5,h2o=1))
 The case-control PRS needs to be transformed to liability-scale in both the population reference sample and in the test sample.
 
 
-## Getting Started to apply `DDx-PRS`
+## Getting started to apply `DDx-PRS`
 
 Copy the `DDxPRS.R` file to your computer. Load DDxPRS and the following libraries.
 
@@ -43,8 +43,6 @@ library(mvnfast)
 ``` 
 
 If the R packages *mvtnorm* or *mvnfast* have not been installed in R, you can install them with the R command: `install.packages("...")`.
-
-
 
 ## Running `DDx-PRS`
 Before applying DDxPRS, we recommend to study and run the example below. The disorder names should be provided in every input argument listed below. Disorders should be identically ordered for all input arguments.
@@ -67,7 +65,14 @@ The input arguments of `DDxPRS()` are:
 
 * **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
 
+## Outcome of `DDx-PRS`
+The outome of `DDx-PRS` is a list with three elements:
 
+* **post_prob:** 
+
+* **liab.configuration:** 
+
+* **mvnorm_list:** 
 
 
 
