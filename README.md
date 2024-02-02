@@ -104,18 +104,6 @@ crosstrait_rg <- as.data.frame(rbind( ## rg, assessed with e.g. cross-trait LDSC
 )) 
 names(K) <- names(snp_h2l) <- names(snp_h2l) <- rownames(crosstrait_rg) <- colnames(crosstrait_rg) <- disorder_names
 
-liab.configuration <- as.data.frame(rbind( ## disorder-names ordered in line with disorder_names
-   c( dis1=1 , dis2=1 , dis3=1 , diagnostic.category = "cat1")
-  ,c( dis1=1 , dis2=1 , dis3=0 , diagnostic.category = "cat1")
-  ,c( dis1=1 , dis2=0 , dis3=1 , diagnostic.category = "cat1")
-  ,c( dis1=1 , dis2=0 , dis3=0 , diagnostic.category = "cat1")
-  ,c( dis1=0 , dis2=1 , dis3=1 , diagnostic.category = "cat2")
-  ,c( dis1=0 , dis2=1 , dis3=0 , diagnostic.category = "cat2")
-  ,c( dis1=0 , dis2=0 , dis3=1 , diagnostic.category = "cat3")
-  ,c( dis1=0 , dis2=0 , dis3=0 , diagnostic.category = "cat4")
-))
-clinical.prior <- c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25) ## lables in diagnostic.category should correspond to names in liab.configuration
-
 ## load PRS data & transpose from standardized 50/50-scale to liability-scale
 ref.sample <- as.data.frame(fread("test/test.population.reference.sample.txt"))
 test.sample <- as.data.frame(fread("test/test.test.sample.txt"))
@@ -132,13 +120,31 @@ names(prs_r2l) <- disorder_names
 crosstrait_cor.prs <- as.data.frame(cor(ref.sample[,c("prs_dis1_liab","prs_dis2_liab","prs_dis3_liab")])) ## ordered in line with disorder_names
 rownames(crosstrait_cor.prs) <- colnames(crosstrait_cor.prs) <- disorder_names
 
-## prepare testdata with prs on liability scale
+## prepare prs_liab with prs on liability scale
 prs_liab <- test.sample[,c("prs_dis1_liab","prs_dis2_liab","prs_dis3_liab")] ## ordered in line with disorder_names
 
+## specify liab.configuration & clinical.prior
+liab.configuration <- as.data.frame(rbind( ## disorder-names ordered in line with disorder_names
+   c( dis1=1 , dis2=1 , dis3=1 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=1 , dis3=0 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=0 , dis3=1 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=0 , dis3=0 , diagnostic.category = "cat1")
+  ,c( dis1=0 , dis2=1 , dis3=1 , diagnostic.category = "cat2")
+  ,c( dis1=0 , dis2=1 , dis3=0 , diagnostic.category = "cat2")
+  ,c( dis1=0 , dis2=0 , dis3=1 , diagnostic.category = "cat3")
+  ,c( dis1=0 , dis2=0 , dis3=0 , diagnostic.category = "cat4")
+))
+clinical.prior <- c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25) ## lables in diagnostic.category should correspond to names in liab.configuration
+
 ## run DDxPRS
-results <- DDxPRS( prs_liab=prs_liab , prs_r2l=prs_r2l , snp_h2l=snp_h2l , K=K  , 
-						 crosstrait_cor.prs=crosstrait_cor.prs , crosstrait_rg=crosstrait_rg, 
-						 clinical.prior , liab.configuration=liab.configuration )
+results <- DDxPRS( prs_liab=prs_liab 
+                  ,prs_r2l=prs_r2l 
+                  ,snp_h2l=snp_h2l 
+                  ,K=K  
+                  ,crosstrait_cor.prs=crosstrait_cor.prs 
+                  ,crosstrait_rg=crosstrait_rg
+                  ,clinical.prior 
+                  ,liab.configuration=liab.configuration )
 
 ##############
 ## Examples to assess performance of results
