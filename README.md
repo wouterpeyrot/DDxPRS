@@ -66,9 +66,12 @@ The input arguments of `DDxPRS()` are:
 * **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
 
 ## Outcome of `DDx-PRS`
-The outome of `DDx-PRS` is a list with three elements:
+The outome of `DDx-PRS` consists of a list with three elements:
 
-* **post_prob:** 
+* **post_prob:** a dataframe with the following columns:
+        * The liability-scale case-control PRS that were provided as input
+        * The posterior probabilities for each configuration of liabilities (i.e. for every row of *liab.configuration*; see above)
+        * The posterior probabilities for each diagnostic category specified in *liab.configuration* 
 
 * **liab.configuration:** 
 
