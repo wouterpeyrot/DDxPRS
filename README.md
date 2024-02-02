@@ -69,15 +69,14 @@ The input arguments of `DDxPRS()` are:
 The output of `DDx-PRS` consists of a list with three elements:
 
 * **post_prob:** a dataframe with the following columns:
-  * The liability-scale case-control PRS that were provided as input
+  * The posterior probabilities for each diagnostic category specified in *liab.configuration*
   * The posterior probabilities for each configuration of liabilities (i.e. for every row of *liab.configuration*; see above)
-  * The posterior probabilities for each diagnostic category specified in *liab.configuration* 
 
 * **liab.configuration:** (this output can safely be ignored) an updated version of the input *liab.configuration*, with added:
   * analyt_pop_proportion: the expected prevalence of each configuration of liabilities in the population, approximated based on the lifetime population prevalences for each disorder and the genetic correlations between disorders.
   * test_priorprob: the prior probability of each configuration of liabilities, combining the information of the *clinical.prior* for eacht diagnostic category and *analyt_pop_proportion*
 
-* **mvnorm_list:** (this output can safely be ignored) a list with 2^n + 1 items when considering n disorders. The first item of the list contains an approximation of the means (*mu*)) and variances/covariances (*sigma*) of the liability-scale case-control PRS and liabilities in the full population. The following items of the list contain the means and covariances for each configurations of liabilities specified in *liab.configuration*.
+* **mvnorm_list:** (this output can safely be ignored) a list with 2^n + 1 items when considering n disorders. The first item of the list contains an approximation of the means (*mu*) and variances/covariances (*sigma*) of the liability-scale case-control PRS and liabilities in the full population. The following items of the list contain the means and covariances for each configuration of liabilities specified in *liab.configuration*.
 
 
 
