@@ -70,120 +70,94 @@ The output of `DDx-PRS` consists of a list with three elements:
 
 * **post_prob:** a dataframe with the following columns:
   * The posterior probabilities for each diagnostic category specified in *liab.configuration*
-  * The posterior probabilities for each configuration of liabilities (i.e. for every row of *liab.configuration*; see above)
+  * The posterior probabilities for each configuration of liabilities in *liab.configuration* (i.e. for every row of *liab.configuration*; see above)
 
-* **liab.configuration:** (this output can safely be ignored) an updated version of the input *liab.configuration*, with added:
+* **liab.configuration:** (this output can safely be ignored) an updated version of *liab.configuration*, with the following columns added:
   * analyt_pop_proportion: the expected prevalence of each configuration of liabilities in the population, approximated based on the lifetime population prevalences for each disorder and the genetic correlations between disorders.
   * test_priorprob: the prior probability of each configuration of liabilities, combining the information of the *clinical.prior* for eacht diagnostic category and *analyt_pop_proportion*
 
 * **mvnorm_list:** (this output can safely be ignored) a list with 2^n + 1 items when considering n disorders. The first item of the list contains an approximation of the means (*mu*) and variances/covariances (*sigma*) of the liability-scale case-control PRS and liabilities in the full population. The following items of the list contain the means and covariances for each configuration of liabilities specified in *liab.configuration*.
 
-
-
-## !!! IGNORE EVERYTHING BELOW !!!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* **A_name/B_name:** 2 or 3 letter disorder codes that will be used to plot the genetic distance between cases and controls in terms of F<sub>ST,causal</sub>.
-
-* **sumstats_fileA1A0/sumstats_fileB1B0:** names of the gzip-files with case-control GWAS results. Column names should be: SNP, CHR, BP, EA, NEA, FRQ, OR, SE, P, Neff. EA denotes the effective allele, NEA denotes the non effective allele, FRQ denotes the frequency of the EA in controls, OR denotes the OR per EA, SE denotes the standard error of log(OR), Neff labels the effective sample size. When Neff is not known on a SNP-by-SNP basis, this column can be computed by 4/{(1/N_case)+(1/N_control)} estimated per cohort contributing to the meta-analyses and then added together across contributing cohorts. Note that the SE column is optional, although without SE some SNPs with very small p-values < 1e-310 may be discarded (as no z-scores can be estimated for them). Note that the case-control GWAS results of A1A0 and B1B0 will be merged based on SNP names, so make sure to align these adequately (by i.e. naming them as CHR-BP).
-
-* **K_A1A0/K_B1B0:** the most likely lifetime disorder prevalences of disorder A and disorder B in the population, following the disorder definition used in the respective case-control GWAS. 
-
-* **K_A1A0_high/K_B1B0_high:** upper bound of disorder prevalences. This parameter protects against potential false positive association at stress test SNPs (shared causal SNPs with the same allele frequency in cases of both disorders), and acknowledges that it is often hard to now the exact prevalence of the disorder the respective case-control GWAS. When a loose disorder definition has been applied this parameter should be set to a relatively larger value.
-
-* **K_A1A0_low/K_B1B0_low:** lower bound of disorder prevalences. This parameter protects against potential false positive association at stress test SNPs (shared causal SNPs with the same allele frequency in cases of both disorders), and acknowledges that it is often hard to now the exact prevalence of the disorder the respective case-control GWAS. When a strict disorder definition has been applied this parameter should be set to a relatively lower value.
-
-* **h2l_A1A0/h2l_B1B0:** SNP-based heritability on the liability scale, as estimated with e.g. stratified LD Score regression (Bulik-Sullivan et al. 2015A Nat Genet, PMID 25642630; Finucane et al. 2015 Nat Genet, PMID 26414678; Gazal et al. 2017 Nat Genet, PMID 28892061; Gazal et al. 2019 Nat Genet, PMID 31285579)*
-
-* **rg_A1A0_B1B0:** genetic correlation between disorders A and B, as estimated with e.g. cross-trait LD score regression (Bulik-Sullivan et al. 2015B Nature Genetics; PMID: 26414676)
-
-* **intercept_A1A0_B1B0:** intercept from cross-trait LD score regression (Bulik-Sullivan et al. 2015B Nature Genetics; PMID: 26414676) 
-
-* ***m:*** approximation of number of independent effective loci. Our primary recommendation is to specify *m* based on published estimates of genome-wide polygenicity, such as the effective number of independently associated causal SNPs (O' Connor et al. 2019 Am J Hum Genet, PMID 31402091) or the total number of independently associated SNPs (Zhang et al. 2020 Nat Commun, PMID 32620889; Frei et al. 2019 Nat Commun, PMID 31160569; Zhang et al. 2018 Nat Genet, PMID 30104760; Zeng et al. 2018 Nat Genet, PMID 29662166). These values generally range from 1,000 for relatively sparse traits (e.g. autoimmune diseases) to 10,000 for highly polygenic traits (e.g. psychiatric disorders). When estimates of genome-wide polygenicity are not available, our recommendation is to specify *m*=1,000 for traits that are expected to have relatively sparse architectures (e.g. autoimmune diseases), *m*=10,000 for traits that are expected to have highly polygenic architectures (e.g. psychiatric disorders), and *m*=5,000 for traits with no clear expectation. When comparing disorders with different levels of polygenicity, our recommendation is to specify *m* based on the expected average across both disorders.
-
-* **N_A1/N_B1:** total number of cases in the respective input case-control GWAS 
-
-* **N_A0/N_B0:** total number of controls in the respective input case-control GWAS 
-
-* **N_overlap_A0B0:** confirmed number of overlapping controls between the A1A0 and B1B0 GWAS samples. This number can increase power of CC-GWAS as it increases the modelled covariance of error-terms between the case-control GWAS results. When unknown, set to 0 to prevent inflated type I error.
-
-* **subtype_data:** set to `FALSE` when comparing two different disorders (with different definitions of controls, e.g. when comparing psychiatric disorders). Set to `TRUE` when comparing subtypes of a disorder (with same definition of controls, e.g. when comparing subtypes of specific cancer). This setting adjusts the weights of the CC-GWAS<sub>Exact</sub> component to prevent inflated type I error rate at stress test SNP (with causal case-control effects but the same allele frequency among cases).
-
-* **sumstats_fileA1B1:** set to `NA` when applying CC-GWAS based on case-control GWAS results only. Specify the name of the gzip-file with GWAS results from the direct case-case comparison, when applying CC-GWAS+. Format the file as described in *sumstats_fileA1A0/sumstats_fileB1B0* above.
-
-* **N_A1_inA1B1/N_B1_inA1B1:** set to `NA` when applying CC-GWAS based on case-control GWAS results only. When applying CC-GWAS+, specify the number of cases in the direct case-case GWAS here.
-
-* **intercept_A1A0_A1B1/intercept_B1B0_A1B1:** set to `NA` when applying CC-GWAS based on case-control GWAS results only. When applying CC-GWAS+, provide here the intercept from cross-trait LD score regression of A1A0 vs A1B1 respectively B1B0 vs A1B1 (i.e. the intercept from the "Genetic Covariance" section in the output from LD score regression; Bulik-Sullivan et al. 2015B Nature Genetics; PMID: 26414676)
-
-* **save.all:** set to `FALSE` to save only the trimmed results that can directly be used for follow-up analyses (such as e.g. clumping). Set the `TRUE` to save all results, including information of all steps to protect against type I error; note that these results may include SNPs that should be removed to prevent type I error.
-
-## Output files
-
-The `CCGWAS()` function provides three output files. The `outcome_file.log` file provides a logfile of the analyses. This file also reports the CC-GWAS<sub>OLS</sub> weights and the CC-GWAS<sub>Exact</sub> weights. The `outcome_file.pdf` file provides a plot of the genetic distances between cases and controls of both disorders in terms of F<sub>ST,causal</sub>. The `outcome_file.results.gz` file reports results of the case-case association analyses. SNPs with significant case-case association are labelled as 1 in the **CCGWAS_signif** column. The other columns are
-
-* **SNP, CHR, BP, EA, NEA:** as in the input case-control GWAS files.
-
-* **OLS_beta, OLS_se, OLS_pval:** case-case association based on the CC-GWAS<sub>OLS</sub> component. The required level of significance of the CC-GWAS<sub>OLS</sub> component is 5x10<sup>-8</sup> (controlling type I error at null-null SNPs with no impact in either case-control comparison). 
-
-* **Exact_beta, Exact_se, Exact_pval:** case-case association based on the CC-GWAS<sub>Exact</sub> component (based on the most likely lifetime disorder prevalences; see above). The required level of significance of the CC-GWAS<sub>Exact</sub> component is 10<sup>-4</sup> (controlling type I error at stress test SNPs, i.e. shared causal SNPs with the same allele frequency in cases of both disorders). 
-
-* **CCGWAS_signif:** labels SNPs with significant case-case association as `1` (i.e. passing the required levels of significance for the OLS_pval, Exact_pval, Exact_ll_pval, Exact_lh_pval, Exact_hl_pval and Exact_hh_pval, without suggestive evidence for differential tagging of a nearby stress test SNP), and other SNPs as `0`. 
-
-When setting `save.all=TRUE` (see above), CC-GWAS additionally outputs a file `outcome_file.results.ALL.gz`. In addition to the output columns above, this file also contains the following columns:
-
-* **A1A0_beta, A1A0_se, A1A0_pval, B1B0_beta, B1B0_se, B1B0_pval:** case-control effects expressed on the standardized observed scale with a 50/50 case-control ascertainment. 
-
-* **potential_tagging_stresstest:** reports results of the filtering step to exclude potential false positive associations due to differential tagging of a causal stress test SNP (shared causal SNPs with the same allele frequency in cases of both disorders). `NA` when at least one of the CC-GWAS<sub>OLS</sub> component and the CC-GWAS<sub>Exact</sub> component does not reach its required level of significance. `0` when both the CC-GWAS<sub>OLS</sub> component and the CC-GWAS<sub>Exact</sub> component reach their required level of significance, without evidence for differential tagging of a nearby stress test SNP. `1` when both the CC-GWAS<sub>OLS</sub> component and the CC-GWAS<sub>Exact</sub> component reach their required level of significance, but with suggestive evidence for differential tagging of a nearby stress test SNP (these SNPs are excluded from the significant results). 
-
-* **Exact_ll_pval, Exact_lh_pval, Exact_hl_pval, Exact_hh_pval:** reports the p-values of perturbations of the CC-GWAS<sub>Exact</sub> component based on the specified ranges of the lifetime disorder prevalences (see above). *ll* corresponds to weights based on K_A1A0_low and K_B1B0_low (see above); *lh* is based on K_A1A0_low and K_B1B0_high; *hl* is based on K_A1A0_high and K_B1B0_low; *hh* is based on K_A1A0_high and K_B1B0_high. All of these p-values are required to pass the level of significance of 10<sup>-4</sup> to control type I error at stress test SNPs in the context of uncertainty about the population prevalences.
-
-The file `outcome_file.results.ALL.gz` may also contain SNPs with `OLS_pval<5e-8` that should be removed to protect against type I error (which are per default removed from `outcome_file.results.gz`). When wanting to work with `outcome_file.results.ALL.gz`, these SNPs can be removed in R with:
-
-```[r]
-library(data.table)
-d <- as.data.frame(fread("outcome_file.results.ALL.gz",header=TRUE))
-d <- d[ {d$OLS_pval<5e-8 & d$CCGWAS_signif==0}==FALSE ,] 
-``` 
-
-## Using `CC-GWAS` results for follow-up analyses
-
-We advise to use the results from the CC-GWAS<sub>OLS</sub> component (OLS_beta, OLS_se, OLS_pval) for clumping and for polygenic risk score analyses. We advise to use the results from the CC-GWAS<sub>Exact</sub> component (Exact_beta, Exact_se, Exact_pval) for genetic correlation analyses.
-
 ## Running the example in the *test* folder 
 
-Download the `test.casecontrol.gwas.BIP.10snps.txt.gz`, and `test.casecontrol.gwas.SCZ.10snps.txt.gz` files from the *test* folder and place in your working directory. Run the `CCGWAS()` function with:
+Download the `test.population.reference.sample.txt` and `test.test.sample.txt` files from the *test* folder and place in your working directory. Run the `DDxPRS()` function with:
 
 ```[r]
+rm(list=ls())
+source("DDxPRS.R")
 library(data.table)
-library(R.utils)
-library(CCGWAS)
-CCGWAS( outcome_file = "test.out" , A_name = "SCZ" , B_name = "BIP" , 
-        sumstats_fileA1A0 = "./test.casecontrol.gwas.SCZ.10snps.txt.gz" ,
-        sumstats_fileB1B0 = "./test.casecontrol.gwas.BIP.10snps.txt.gz" ,
-        K_A1A0 = 0.004 , K_A1A0_high = 0.01 , K_A1A0_low = 0.004 ,  
-        K_B1B0 = 0.01 , K_B1B0_high = 0.02 , K_B1B0_low = 0.005 , 
-        h2l_A1A0 = 0.2 , h2l_B1B0 = 0.20 , rg_A1A0_B1B0 = 0.70 , intercept_A1A0_B1B0 = 0.2425 , m = 1e4 ,  
-        N_A1 = 40675 , N_B1 = 20352 , N_A0 = 64643 , N_B0 = 31358 , N_overlap_A0B0 = 24265 )
+library(mvtnorm)
+library(mvnfast) ## quicker than "mvtnorm"
+
+h2o_to_h2l<-function(K,P,h2o){
+	## Eq 23 of Lee et al 2011 Am J Hum Genet
+	t = -qnorm(K,0,1) ; z = dnorm(t) ; return(h2o*K*K*(1-K)*(1-K)/{z*z*P*(1-P)})
+} 
+
+disorder_names <- c("dis1","dis2","dis3")
+K <- c(0.01,0.02,0.16)                ## population prevelance ; ordered in line with disorder_names
+snp_h2l <- c(0.24,0.19,0.09)          ## SNP-h2l, assessed with e.g. sLDSC ; ordered in line with disorder_names
+crosstrait_rg <- as.data.frame(rbind( ## rg, assessed with e.g. cross-trait LDSC; ordered in line with disorder_names
+   c( 1.00 , 0.7  , 0.35 )
+  ,c( 0.7  , 1.00 , 0.45 )
+  ,c( 0.35 , 0.45 , 1.00 )
+)) 
+names(K) <- names(snp_h2l) <- names(snp_h2l) <- rownames(crosstrait_rg) <- colnames(crosstrait_rg) <- disorder_names
+
+liab.configuration <- as.data.frame(rbind( ## disorder-names ordered in line with disorder_names
+   c( dis1=1 , dis2=1 , dis3=1 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=1 , dis3=0 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=0 , dis3=1 , diagnostic.category = "cat1")
+  ,c( dis1=1 , dis2=0 , dis3=0 , diagnostic.category = "cat1")
+  ,c( dis1=0 , dis2=1 , dis3=1 , diagnostic.category = "cat2")
+  ,c( dis1=0 , dis2=1 , dis3=0 , diagnostic.category = "cat2")
+  ,c( dis1=0 , dis2=0 , dis3=1 , diagnostic.category = "cat3")
+  ,c( dis1=0 , dis2=0 , dis3=0 , diagnostic.category = "cat4")
+))
+clinical.prior <- c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25) ## lables in diagnostic.category should correspond to names in liab.configuration
+
+## load PRS data & transpose from standardized 50/50-scale to liability-scale
+ref.sample <- as.data.frame(fread("test/test.population.reference.sample.txt"))
+test.sample <- as.data.frame(fread("test/test.test.sample.txt"))
+for(dis in disorder_names){
+	ref.sample [,paste("prs_",dis,"_liab",sep="")] <- ref.sample [,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis],P=0.5,h2o=1))
+	test.sample[,paste("prs_",dis,"_liab",sep="")] <- test.sample[,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis],P=0.5,h2o=1))
+}
+
+## compute liability-variance explained by prs based on reference sample
+prs_r2l <- diag(var(ref.sample[,c("prs_dis1_liab","prs_dis2_liab","prs_dis3_liab")])) ## ordered in line with disorder_names
+names(prs_r2l) <- disorder_names
+
+## estimate correlation between prs based on reference sample
+crosstrait_cor.prs <- as.data.frame(cor(ref.sample[,c("prs_dis1_liab","prs_dis2_liab","prs_dis3_liab")])) ## ordered in line with disorder_names
+rownames(crosstrait_cor.prs) <- colnames(crosstrait_cor.prs) <- disorder_names
+
+## prepare testdata with prs on liability scale
+prs_liab <- test.sample[,c("prs_dis1_liab","prs_dis2_liab","prs_dis3_liab")] ## ordered in line with disorder_names
+
+## run DDxPRS
+results <- DDxPRS( prs_liab=prs_liab , prs_r2l=prs_r2l , snp_h2l=snp_h2l , K=K  , 
+						 crosstrait_cor.prs=crosstrait_cor.prs , crosstrait_rg=crosstrait_rg, 
+						 clinical.prior , liab.configuration=liab.configuration )
+
+##############
+## Examples to assess performance of results
+##############
+
+library(locfit) ## for smoothing in ICI
+library(pROC)
+ICI <- function(Y,P){
+  na.index <- is.na(Y) | is.na(P) ; Y <- Y[na.index==FALSE] ; P <- P[na.index==FALSE]
+  loess.calibrate <- locfit(Y~P) ## Austin PC. The Integrated Calibration Index (ICI) and related metrics for quantifying the calibration of logistic regression models. Statistics in Medicine 2019.pdf
+  P.calibrate <- predict (loess.calibrate, newdata = P)
+  ICI <- mean (abs(P.calibrate-P),na.rm=TRUE)   ## very rarely NA, when e.g. prob_scz=prob_bip=0
+  return(ICI)
+}
+
+Y <- as.numeric(test.sample$DDx=="cat1") ; P <- results$post_prob$prob_cat1
+ICI(Y=Y,P=P)
+roc(response=Y,predictor=P,quiet=TRUE)$auc
         
 ``` 
 
-This provides the results for 10 SNPs from the schizophrenia (SCZ) vs bipolar disorder (BIP) case-case comparison, described in detail in Peyrot & Price. 2021 Nature Genetics.
+Note that the example data consists of simulated data for the prediction of schizophrenia (dis1), bipolar disorder (dis2) and major depressive disorders (dis3) with diagnostic categories schziophrenia (cat1), bipolar disorders (cat2), major depressive disorder (cat3) and controls (cat4) described in Peyrot et al 2024 medRxiv.
