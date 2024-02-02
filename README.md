@@ -87,7 +87,7 @@ rm(list=ls())
 source("DDxPRS.R")
 library(data.table)
 library(mvtnorm)
-library(mvnfast) ## quicker than "mvtnorm"
+library(mvnfast) 
 
 h2o_to_h2l<-function(K,P,h2o){
 	## Eq 23 of Lee et al 2011 Am J Hum Genet
@@ -166,4 +166,4 @@ roc(response=Y,predictor=P,quiet=TRUE)$auc
         
 ``` 
 
-Note that this example consists of simulated data for the analyses described in Peyrot et al 2024 medRxiv, i.e. predicting the diagnostic categories schziophrenia (cat1), bipolar disorders (cat2), major depressive disorder (cat3) and controls (cat4) based on the case-control PRS of schizophrenia (dis1), bipolar disorder (dis2) and major depressive disorders (dis3).
+Note that this example consists of simulated data for the analyses described in Peyrot et al. 2024 medRxiv, i.e. predicting the diagnostic categories schziophrenia (cat1), bipolar disorders (cat2), major depressive disorder (cat3) and controls (cat4) based on the case-control PRS of schizophrenia (dis1), bipolar disorder (dis2) and major depressive disorders (dis3).
