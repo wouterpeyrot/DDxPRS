@@ -59,13 +59,13 @@ The input arguments of `DDxPRS()` are:
 
 * **K:** a vector with lifetime population prevalence for each disorder, e.g. c(dis1=0.01,dis2=0.02,dis3=0.16).
 
-* **crosstrait_cor.prs:** a dataframe of correlations between the case-control PRS. This should be estimated based on the PRS computed in the population reference sample. See for illustation the example below.
+* **crosstrait_cor.prs:** a dataframe of correlations between the case-control PRS. This should be estimated based on the PRS computed in the population reference sample. For illustation, see the example below.
 
 * **crosstrait_rg:** a dataframe with the genetic correlations between the disorders considers. Genetic correlations can be assessed with cross-trait LD score regression, available at https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation
 
 * **clinical.prior:** a vector with the clinical prior probabilities for the diagnostic categories specified in *liab.configuration* (see below), e.g. c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25). Note that the prior probabilities should add up to exactly 1.
 
-* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). See for illustation the example below.
+* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
 
 
 
