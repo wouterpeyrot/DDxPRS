@@ -137,7 +137,7 @@ liab.configuration <- as.data.frame(rbind( ## disorder-names ordered in line wit
 clinical.prior <- c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25) ## lables in diagnostic.category should correspond to names in liab.configuration
 
 ## run DDxPRS
-results <- DDxPRS( prs_liab=prs_liab 
+output <- DDxPRS( prs_liab=prs_liab 
                   ,prs_r2l=prs_r2l 
                   ,snp_h2l=snp_h2l 
                   ,K=K  
@@ -147,7 +147,7 @@ results <- DDxPRS( prs_liab=prs_liab
                   ,liab.configuration=liab.configuration )
 
 ##############
-## Examples to assess performance of results
+## Examples to assess performance of output
 ##############
 
 library(locfit) ## for smoothing in ICI
@@ -161,7 +161,7 @@ ICI <- function(Y,P){
   return(ICI)
 }
 
-Y <- as.numeric(test.sample$DDx=="cat1") ; P <- results$post_prob$prob_cat1
+Y <- as.numeric(test.sample$DDx=="cat1") ; P <- output$post_prob$prob_cat1
 ICI(Y=Y,P=P)
 roc(response=Y,predictor=P,quiet=TRUE)$auc
         
