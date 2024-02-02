@@ -4,7 +4,7 @@ The `DDxPRS` R function provides a tool for distuingishing different disorders b
 
 
 ## Compute liability-scale case-control polygenic risk scores (PRS) 
-Before applying DDx-PRS, liability-scale case-control PRS need to be computed for the disorders considered. This should be done with a Baysian method to achieve proper callibration of the case-control PRS. We used PRS-CS for this purpose (Ge at al. 2019 Nat Commun), but this can also be done with e.g. SBayesR (Lloyd-Jones et al. 2019 Nat Commun). For more details on computing liability-scale case-control PRS, see https://github.com/euffelmann/bpc. 
+Before applying DDx-PRS, liability-scale case-control PRS need to be computed for each disorder considered. This should be done with a Baysian method to achieve proper callibration of the case-control PRS. We used PRS-CS for this purpose (Ge at al. 2019 Nat Commun), but this can also be done with e.g. SBayesR (Lloyd-Jones et al. 2019 Nat Commun). For more details on computing liability-scale case-control PRS, see https://github.com/euffelmann/bpc. 
 
 **Apply PRS-CS**
 
