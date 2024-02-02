@@ -153,10 +153,11 @@ results <- DDxPRS( prs_liab=prs_liab
 library(locfit) ## for smoothing in ICI
 library(pROC)
 ICI <- function(Y,P){
+  ## Austin PC. The Integrated Calibration Index (ICI) and related metrics for quantifying the calibration of logistic regression models. Statistics in Medicine 2019
   na.index <- is.na(Y) | is.na(P) ; Y <- Y[na.index==FALSE] ; P <- P[na.index==FALSE]
-  loess.calibrate <- locfit(Y~P) ## Austin PC. The Integrated Calibration Index (ICI) and related metrics for quantifying the calibration of logistic regression models. Statistics in Medicine 2019.pdf
+  loess.calibrate <- locfit(Y~P) 
   P.calibrate <- predict (loess.calibrate, newdata = P)
-  ICI <- mean (abs(P.calibrate-P),na.rm=TRUE)   ## very rarely NA, when e.g. prob_scz=prob_bip=0
+  ICI <- mean (abs(P.calibrate-P),na.rm=TRUE)   
   return(ICI)
 }
 
