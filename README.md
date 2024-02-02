@@ -69,9 +69,9 @@ The input arguments of `DDxPRS()` are:
 The outome of `DDx-PRS` consists of a list with three elements:
 
 * **post_prob:** a dataframe with the following columns:
-* The liability-scale case-control PRS that were provided as input
- * The posterior probabilities for each configuration of liabilities (i.e. for every row of *liab.configuration*; see above)
- * The posterior probabilities for each diagnostic category specified in *liab.configuration* 
+  * The liability-scale case-control PRS that were provided as input
+  * The posterior probabilities for each configuration of liabilities (i.e. for every row of *liab.configuration*; see above)
+  * The posterior probabilities for each diagnostic category specified in *liab.configuration* 
 
 * **liab.configuration:** 
 
