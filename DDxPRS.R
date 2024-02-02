@@ -161,9 +161,10 @@ DDxPRS <- function( prs_liab , prs_r2l , snp_h2l , K  , crosstrait_cor.prs , cro
 			quick_names <- liab.configuration$quick_name[ liab.configuration$diagnostic.category==category_name ]
 			post_prob[ , category_name ] <- rowSums(post_prob[,quick_names,drop=FALSE])
 		}
+		post_prob <- post_prob[,c(category_names,liab.configuration$quick_name)]
 		colnames(post_prob) <- paste("prob_",colnames(post_prob),sep="") 
 
-		return(list(post_prob=as.data.frame(cbind(prs_liab,post_prob)),liab.configuration=liab.configuration,mvnorm_list=mvnorm_list))
+		return(list(post_prob=as.data.frame(post_prob),liab.configuration=liab.configuration,mvnorm_list=mvnorm_list))
 
 } ## end DDxPRS()
 
