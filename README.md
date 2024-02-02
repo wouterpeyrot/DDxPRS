@@ -70,7 +70,7 @@ The output of `DDx-PRS` consists of a list with three elements:
 
 * **post_prob:** a dataframe with the following columns:
   * The posterior probabilities for each diagnostic category specified in *liab.configuration*
-  * The posterior probabilities for each configuration of liabilities in *liab.configuration* (i.e. for every row of *liab.configuration*; see above)
+  * The posterior probabilities for each configuration of liabilities in *liab.configuration* 
 
 * **liab.configuration:** (this output can safely be ignored) an updated version of *liab.configuration*, with the following columns added:
   * analyt_pop_proportion: the expected prevalence of each configuration of liabilities in the population, approximated based on the lifetime population prevalences for each disorder and the genetic correlations between disorders.
