@@ -63,7 +63,7 @@ The input arguments of `DDxPRS()` are:
 
 * **clinical.prior:** a vector with the clinical prior probabilities for the diagnostic categories specified in *liab.configuration* (see below), e.g. c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25). Note that the prior probabilities should add up to exactly 1.
 
-* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
+* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colum should be named *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
 
 ## Output of `DDx-PRS`
 The output of `DDx-PRS` consists of a list with three elements:
