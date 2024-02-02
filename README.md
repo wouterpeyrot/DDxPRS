@@ -23,8 +23,11 @@ Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in t
 
 For each disorder, the lifetime population prevelence (`K`) can be used to transform the observed-scale case-control PRS to the liability-scale as follows
 ```[r]
-h2o_to_h2l<-function(K,P,h2o){t = -qnorm(K,0,1) ; z = dnorm(t) ; return(h2o*K*K*(1-K)*(1-K)/{z*z*P*(1-P)})} ## Eq 23 of Lee et al. 2011 Am J Hum Genet
-prs_liab <- prs_obs5050*h2o_to_h2l(K=K,P=0.5,h2o=1)
+h2o_to_h2l<-function(K,P,h2o){
+        ## Eq 23 of Lee et al. 2011 Am J Hum Genet
+        t = -qnorm(K,0,1) ; z = dnorm(t) ;return(h2o*K*K*(1-K)*(1-K)/{z*z*P*(1-P)})
+} 
+prs_liab <- prs_obs5050*sqrt(h2o_to_h2l(K=K,P=0.5,h2o=1))
 ``` 
 The case-control PRS needs to be transformed to liability-scale in both the population reference sample and test sample.
 
