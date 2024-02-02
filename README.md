@@ -21,7 +21,7 @@ Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in t
 
 **Transform observed-scale case-control PRS to the liability-scale**
 
-For each disorder, the lifetime population prevelence (`K`) can be used to transform the observed-scale case-control PRS to the liability-scale as follows
+For each disorder, the lifetime population prevelence (`K`) can be used to transform the observed-scale case-control PRS to the liability-scale in R as follows
 ```[r]
 h2o_to_h2l<-function(K,P,h2o){
         ## Eq 23 of Lee et al. 2011 Am J Hum Genet
@@ -29,10 +29,10 @@ h2o_to_h2l<-function(K,P,h2o){
 } 
 prs_liab <- prs_obs5050*sqrt(h2o_to_h2l(K=K,P=0.5,h2o=1))
 ``` 
-The case-control PRS needs to be transformed to liability-scale in both the population reference sample and test sample.
+The case-control PRS needs to be transformed to liability-scale in both the population reference sample and in the test sample.
 
 
-## Getting Started
+## Getting Started to apply `DDx-PRS`
 
 Copy the `DDxPRS.R` file to your computer. Load DDxPRS and the following libraries.
 
@@ -51,22 +51,21 @@ Before applying DDxPRS, we recommend to study and run the example below. The dis
 
 The input arguments of `DDxPRS()` are:
 
-* **prs_liab:** a dataframe with the liability-scale PRS for every disorder (individuals in rows, prs in columns)
+* **prs_liab:** a dataframe with the liability-scale case-control PRS for each disorder (individuals in rows, prs in columns)
 
-* **prs_r2l:** a vector with liability-scale variance explained in every disorder by its case-control prs, e.g. c(dis1=0.10,dis2=0.08,dis3=0.04). 
+* **prs_r2l:** a vector with liability-scale variance explained in each disorder by its case-control prs, e.g. c(dis1=0.10,dis2=0.08,dis3=0.04). For each disorder, liability-scale variance explained can be approximated by assessing the variance of liability-scale case-control PRS in population referernce sample. See Uffelmann et al. 2024 MedRxiv (PMID: 38260678) for details.
 
-* **snp_h2l:** xxx
+* **snp_h2l:** a vector with liability-scale SNP-heritability for every disorder, e.g. c(dis1=0.24,dis2=0.19,dis3=0.09). Liability-scale SNP-heritabiities can be assessed with LD score regression, available at https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation
 
-* **K:** xxx
+* **K:** a vector with lifetime population prevalence for each disorder, e.g. c(dis1=0.01,dis2=0.02,dis3=0.16).
 
-* **crosstrait_cor.prs:** xxx
+* **crosstrait_cor.prs:** a dataframe of correlations between the case-control PRS. This should be estimated based on the PRS computed in the population reference sample. See for illustation the example below.
 
-* **crosstrait_rg:** xxx
+* **crosstrait_rg:** a dataframe with the genetic correlations between the disorders considers. Genetic correlations can be assessed with cross-trait LD score regression, available at https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation
 
-* **clinical.prior:** xxx
+* **clinical.prior:** a vector with the clinical prior probabilities for the diagnostic categories specified in *liab.configuration* (see below), e.g. c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25). Note that the prior probabilities should add up to exactly 1.
 
-* **liab.configuration:** xxx
-
+* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colums should have the name *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). See for illustation the example below.
 
 
 
