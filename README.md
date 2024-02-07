@@ -14,7 +14,7 @@ Before applying DDx-PRS, liability-scale case-control PRS need to be computed fo
 
 **Compute case-control PRS using Plink**
 
-Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control prs (see details below) and (b) to assess the correlations between the case-control prs; and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
+Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in two datasets: (1) in a population reference sample (e.g. 1000G) to assess (a) the liability-scale variance explained in every disorder by its case-control PRS (see details below) and (b) to assess the correlations between the case-control PRS; and (2) in the test sample in which you aim to apply `DDx-PRS`. The population reference sample, the test sample and the training GWAS results should all be from the same ancestry.
 * Compute the PRS with the Plink command “--score header sum center” (it is important to use this exact command to attain proper callibration)
 * When your test sample is very small, the allele frequencies used in "--score" can be computed in the reference sample and read with the Plink command “--read-freq” (see for details: https://www.cog-genomics.org/plink/1.9/score)
 * The case-control PRS thus obtained are on the standardized observed scale with 50/50 case/control ascertainment, and need to be transformed to the liability-scale (see below).
@@ -23,11 +23,11 @@ Using the SNP-effects thus obtained with PRS-CS, the PRS should be computed in t
 
 For each disorder, the lifetime population prevelence (`K`) can be used to transform the observed-scale case-control PRS to the liability-scale in R as follows
 ```[r]
-h2o_to_h2l<-function(K,P,h2o){
+h2o_to_h2l<-function(K,P=0.5,h2o=1){
         ## Eq 23 of Lee et al. 2011 Am J Hum Genet
         t = -qnorm(K,0,1) ; z = dnorm(t) ;return(h2o*K*K*(1-K)*(1-K)/{z*z*P*(1-P)})
 } 
-prs_liab <- prs_obs5050*sqrt(h2o_to_h2l(K=K,P=0.5,h2o=1))
+prs_liab <- prs_obs5050*sqrt(h2o_to_h2l(K=K))
 ``` 
 The case-control PRS needs to be transformed to liability-scale in both the population reference sample and in the test sample.
 
@@ -59,11 +59,11 @@ The input arguments of `DDxPRS()` are:
 
 * **crosstrait_cor.prs:** a dataframe of correlations between the case-control PRS. This should be estimated based on the PRS computed in the population reference sample. For illustation, see the example below.
 
-* **crosstrait_rg:** a dataframe with the genetic correlations between the disorders considers. Genetic correlations can be assessed with cross-trait LD score regression, available at https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation
+* **crosstrait_rg:** a dataframe with the genetic correlations between the disorders considered. Genetic correlations can be assessed with cross-trait LD score regression, available at https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation
 
 * **clinical.prior:** a vector with the clinical prior probabilities for the diagnostic categories specified in *liab.configuration* (see below), e.g. c(cat1=0.25,cat2=0.25,cat3=0.25,cat4=0.25). Note that the prior probabilities should add up to exactly 1.
 
-* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next colum should be named *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
+* **liab.configuration:** a dataframe linking the configurations of liabilities to the diagnostic categories that you aim to predict. When considering n disorders, there exist 2^n possible configurations of liabilities (above or below the liability threshold for each disorder) (the number of rows of *liab.configuration*). The first n column-names should be the disorder names, and the next column should be named *diagnostic.category*, e.g. colnames: c("dis1","dis2","dis3","diagnostic.category"). For illustation, see the example below.
 
 ## Output of `DDx-PRS`
 The output of `DDx-PRS` consists of a list with three elements:
@@ -72,7 +72,7 @@ The output of `DDx-PRS` consists of a list with three elements:
   * The posterior probabilities for each diagnostic category specified in *liab.configuration*
   * The posterior probabilities for each configuration of liabilities in *liab.configuration* 
 
-* **liab.configuration:** (this output can safely be ignored) an updated version of *liab.configuration*, with the following columns added:
+* **liab.configuration:** (this output can safely be ignored) an updated version of *liab.configuration* that was provided as input, with the following columns added:
   * analyt_pop_proportion: the expected prevalence of each configuration of liabilities in the population, approximated based on the lifetime population prevalences for each disorder and the genetic correlations between disorders.
   * test_priorprob: the prior probability of each configuration of liabilities, combining the information of the *clinical.prior* for eacht diagnostic category and *analyt_pop_proportion*
 
@@ -89,7 +89,7 @@ library(data.table)
 library(mvtnorm)
 library(mvnfast) 
 
-h2o_to_h2l<-function(K,P,h2o){
+h2o_to_h2l<-function(K,P=0.5,h2o=1){
 	## Eq 23 of Lee et al 2011 Am J Hum Genet
 	t = -qnorm(K,0,1) ; z = dnorm(t) ; return(h2o*K*K*(1-K)*(1-K)/{z*z*P*(1-P)})
 } 
@@ -108,8 +108,8 @@ names(K) <- names(snp_h2l) <- names(snp_h2l) <- rownames(crosstrait_rg) <- colna
 ref.sample <- as.data.frame(fread("test/test.population.reference.sample.txt"))
 test.sample <- as.data.frame(fread("test/test.test.sample.txt"))
 for(dis in disorder_names){
-	ref.sample [,paste("prs_",dis,"_liab",sep="")] <- ref.sample [,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis],P=0.5,h2o=1))
-	test.sample[,paste("prs_",dis,"_liab",sep="")] <- test.sample[,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis],P=0.5,h2o=1))
+	ref.sample [,paste("prs_",dis,"_liab",sep="")] <- ref.sample [,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis]))
+	test.sample[,paste("prs_",dis,"_liab",sep="")] <- test.sample[,paste("prs_",dis,"_5050",sep="")]*sqrt(h2o_to_h2l(K=K[dis]))
 }
 
 ## compute liability-variance explained by prs based on reference sample
