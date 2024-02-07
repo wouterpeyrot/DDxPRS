@@ -1,6 +1,6 @@
 # DDx-PRS
 
-The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS (Differential Diagnosis-Polygenic Risk Score) method is described in detail in Peyrot et al. 2024 medRxiv. Before applying `DDx-PRS`, the liability-scale case-control PRS need to be computed for each disorder in a population references sample (e.g. 1000G) and in your test sample.
+The `DDxPRS` R function provides a tool for distuingishing different disorders based on polygenic prediction. The DDx-PRS (Differential Diagnosis-Polygenic Risk Score) method is described in detail in [Peyrot et al. 2024 medRxiv](https://www.medrxiv.org/content/10.1101/2024.02.02.24302228v1). Before applying `DDx-PRS`, the liability-scale case-control PRS need to be computed for each disorder in a population references sample (e.g. 1000G) and in your test sample.
 
 
 ## Compute liability-scale case-control polygenic risk scores (PRS) 
