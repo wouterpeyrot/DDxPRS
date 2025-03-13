@@ -34,7 +34,7 @@ The case-control PRS needs to be transformed to liability-scale in both the popu
 
 ## Getting started to apply `DDx-PRS`
 
-Copy the `DDxPRS.R` file to your computer. Load DDxPRS and the following libraries.
+Copy the `DDxPRS.R` file to your computer. Load DDxPRS and the following libraries (optionally, find exact library versions in `renv.lock` file).
 
 ```[r]
 source(DDxPRS.R)
