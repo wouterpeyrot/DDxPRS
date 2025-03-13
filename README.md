@@ -80,7 +80,7 @@ The output of `DDx-PRS` consists of a list with three elements:
 
 ## Running the example in the *test* folder 
 
-Download the `test.population.reference.sample.txt` and `test.test.sample.txt` files from the *test* folder and place in your working directory. Run the `DDxPRS()` function with:
+Download the `test.population.reference.sample.txt` and `test.test.sample.txt` files from the *test* folder and place in your working directory (optionally, find exact library versions in `renv.lock` file). Run the `DDxPRS()` function with:
 
 ```[r]
 rm(list=ls())
